@@ -10,6 +10,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     
     // Custom query method to search employees by department (case-insensitive)
     List<Employee> findByDepartmentContainingIgnoreCase(String department);
+
+    List<Employee> findByNameContainingIgnoreCase(String name);
+     List<Employee> findByJobTitleContainingIgnoreCase(String jobTitle);
     
     // You can add more custom methods here as needed
 }

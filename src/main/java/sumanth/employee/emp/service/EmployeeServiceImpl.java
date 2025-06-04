@@ -200,4 +200,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return employeeRepository.findByDepartmentContainingIgnoreCase(department);
     }
+
+    @Override
+    public List<Employee> findByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        return employeeRepository.findByNameContainingIgnoreCase(name);
+    }
+    @Override
+    public List<Employee> findByJobTitle(String jobTitle) {
+        if (jobTitle == null || jobTitle.trim().isEmpty()) {
+            throw new IllegalArgumentException("Job title cannot be empty");
+        }
+        return employeeRepository.findByJobTitleContainingIgnoreCase(jobTitle);
+    }
 }

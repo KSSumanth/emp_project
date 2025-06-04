@@ -308,7 +308,7 @@ public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee empl
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/department")
     public ResponseEntity<?> searchEmployeesByDepartment(
             @RequestParam String department) {
         try {
@@ -317,5 +317,15 @@ public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee empl
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+       @GetMapping("/search/name")
+    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam String name) {
+        List<Employee> employees = employeeService.findByName(name);
+        return ResponseEntity.ok(employees);
+    }
+    @GetMapping("/search/jobTitle")
+    public ResponseEntity<List<Employee>> searchEmployeesByJobTitle(@RequestParam String jobTitle) {
+        List<Employee> employees = employeeService.findByJobTitle(jobTitle);
+        return ResponseEntity.ok(employees);
     }
 }

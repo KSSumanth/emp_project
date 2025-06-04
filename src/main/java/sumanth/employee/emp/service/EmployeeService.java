@@ -14,5 +14,7 @@ public interface EmployeeService {
     Employee updateEmployee(Long id, Employee employee);
     void deleteEmployee(Long id);
      List<Employee> findByDepartment(String department);
+     List<Employee> findByName(String name);
+    List<Employee> findByJobTitle(String jobTitle);
 }
 
