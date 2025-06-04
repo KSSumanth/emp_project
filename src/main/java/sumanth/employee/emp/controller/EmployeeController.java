@@ -233,6 +233,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sumanth.employee.emp.model.Employee;
 import sumanth.employee.emp.service.EmployeeService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import jakarta.validation.Valid;
 import java.util.HashMap;
@@ -246,41 +247,26 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
-
-
+ @PreAuthorize("hasAuthority('admin')")
     @PostMapping
 public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
     Employee savedEmployee = employeeService.createEmployee(employee);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
 }
-    // @PostMapping
-    // public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
-    //     if (bindingResult.hasErrors()) {
-    //         Map<String, String> errors = new HashMap<>();
-    //         bindingResult.getFieldErrors().forEach(error -> {
-    //             errors.put(error.getField(), error.getDefaultMessage());
-    //         });
-    //         return ResponseEntity.badRequest().body(errors);
-    //     }
-        
-    //     Employee savedEmployee = employeeService.createEmployee(employee);
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
-    // }
-
-    // Keep all your other existing methods unchanged
+ @PreAuthorize("hasAnyAuthority('admin','user')")
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     }
-
+ @PreAuthorize("hasAnyAuthority('admin','user')")
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         return employeeService.getEmployeeById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
+ @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployee(
             @PathVariable Long id,
@@ -301,13 +287,13 @@ public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee empl
             return ResponseEntity.notFound().build();
         }
     }
-
+ @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
     }
-
+ @PreAuthorize("hasAnyAuthority('admin','user')")
     @GetMapping("/search/department")
     public ResponseEntity<?> searchEmployeesByDepartment(
             @RequestParam String department) {
