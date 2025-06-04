@@ -247,19 +247,25 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+
     @PostMapping
-    public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error -> {
-                errors.put(error.getField(), error.getDefaultMessage());
-            });
-            return ResponseEntity.badRequest().body(errors);
-        }
+public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
+    Employee savedEmployee = employeeService.createEmployee(employee);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
+}
+    // @PostMapping
+    // public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
+    //     if (bindingResult.hasErrors()) {
+    //         Map<String, String> errors = new HashMap<>();
+    //         bindingResult.getFieldErrors().forEach(error -> {
+    //             errors.put(error.getField(), error.getDefaultMessage());
+    //         });
+    //         return ResponseEntity.badRequest().body(errors);
+    //     }
         
-        Employee savedEmployee = employeeService.createEmployee(employee);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
-    }
+    //     Employee savedEmployee = employeeService.createEmployee(employee);
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
+    // }
 
     // Keep all your other existing methods unchanged
     @GetMapping

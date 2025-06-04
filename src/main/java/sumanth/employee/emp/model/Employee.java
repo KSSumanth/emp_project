@@ -119,7 +119,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false) // Keep this for database integrity
     @NotBlank(message = "Name is mandatory")
     @Size(min = 2, max = 50, message = "Name must be 2-50 characters")
     private String name;
