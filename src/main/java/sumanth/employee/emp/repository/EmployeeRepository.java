@@ -13,7 +13,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByNameContainingIgnoreCase(String name);
      List<Employee> findByJobTitleContainingIgnoreCase(String jobTitle);
-    
     // You can add more custom methods here as needed
 }
 
